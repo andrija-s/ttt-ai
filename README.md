@@ -1,7 +1,7 @@
 # Tic Tac Toe "AI" Shennanigans
 
 ### What?
-This is a ittle Java program to play tic tac toe versus an "AI" that is supposed to be unbeatable. Inspired by [this guy's Chess AI video](https://www.youtube.com/watch?v=U4ogK0MIzqk).
+This is a ittle Java program to play tic tac toe versus an "AI" that is supposed to be unbeatable. Inspired by [Sebastian Lague's Chess AI video](https://www.youtube.com/watch?v=U4ogK0MIzqk).
 
 ### Why?
 I read a medium article about some guy getting a job by just giving a description of how he would create an unbeatable tic tac toe AI, which he was given a weekend to come up with.
