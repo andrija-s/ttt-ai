@@ -32,8 +32,8 @@ public class Board {
       return true;
     } 
     else if (this.filled == 0) {
-      this.finished = true;
       this.winner = 0;
+      this.finished = true;
       return true;
     }
     /* 
@@ -68,8 +68,8 @@ public class Board {
       return true;
     } 
     else if (this.filled == 0) {
-      this.finished = true;
       this.winner = 0;
+      this.finished = true;
       return true;
     }
     return true;
