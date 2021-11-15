@@ -71,9 +71,8 @@ public class Board {
   // Recursive search for best next move with this player
   public int makeMoveRec(int row, int col, int player, int depth) {
 
-    if (Evaluate(row, col, player) == true) {
+    if (Evaluate(row, col, player) == true)
       return player * depth;
-    }
     if (depth == 1)
       return 0;
     this.board[row][col] = player;
@@ -85,6 +84,8 @@ public class Board {
       }
     }
     this.board[row][col] = 0;
+    // we want to give the weight of the strongest possible counter-attack by enemy
+    // against current player, should current player not win with current move
     if (player > 0) 
       return order.first();
     else
