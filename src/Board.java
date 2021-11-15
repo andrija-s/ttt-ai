@@ -39,9 +39,10 @@ public class Board {
         }
       }
       this.empty--;
-      for (Map.Entry<Integer, int[]> entry : order.entrySet()) {
+      // testing the result, sadly you will never see a negative key because algo can't beat itself :'(
+      /* for (Map.Entry<Integer, int[]> entry : order.entrySet()) {
         System.out.println(Arrays.toString(entry.getValue()) + " key: " + entry.getKey());
-      }
+      } */
       boolean tempC = this.Evaluate(order.get(order.firstKey())[0], order.get(order.firstKey())[1], -1);
       this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
       if (tempC) {
@@ -56,28 +57,27 @@ public class Board {
       return true;
     }
   }
-
-  public int makeMoveRec(int row, int col, int set) {
-    if (Evaluate(row, col, set) == true) {
-      return set * this.empty;
+  // Recursive search for best next move with this player
+  public int makeMoveRec(int row, int col, int player) {
+    if (Evaluate(row, col, player) == true) {
+      return player * this.empty;
     }
+    if (this.empty == 1) return 0;
     this.empty--;
-    this.board[row][col] = set;
+    this.board[row][col] = player;
     ArrayList<Integer> order = new ArrayList<>();
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (this.board[i][j] == 0) {
-          order.add(makeMoveRec(i, j, -set));
+          order.add(makeMoveRec(i, j, -player));
         }
       }
     }
     unMove(row, col);
     Collections.sort(order);
-    if (order.isEmpty()) return 0;
-    if (set > 0) return order.get(0);
+    if (player > 0) return order.get(0);
     else return order.get(order.size() - 1);
   }
-
   public boolean unMove(int row, int col) {
 
     if (this.board[row][col] == 0 || row < 0 || row >= board.length || col < 0 || col >= board[row].length)
@@ -96,19 +96,21 @@ public class Board {
       this.board = new int[board.length][board[0].length];
     }
   }
-
-  public boolean Evaluate(int row, int col, int set) {
-    this.board[row][col] = set;
+  /**
+   * Evaluates if move to row, col with player of such set is a win
+   */
+  public boolean Evaluate(int row, int col, int player) {
+    this.board[row][col] = player;
     int c = 0, r = 0, d = 0, rd = 0;
     int len = this.board.length;
     for (int i = 0; i < len; i++) {
-      if (this.board[row][i] == set)
+      if (this.board[row][i] == player)
         c++;
-      if (this.board[i][col] == set)
+      if (this.board[i][col] == player)
         r++;
-      if (this.board[i][i] == set)
+      if (this.board[i][i] == player)
         d++;
-      if (this.board[i][len - i - 1] == set)
+      if (this.board[i][len - i - 1] == player)
         rd++;
     }
     this.board[row][col] = 0;
