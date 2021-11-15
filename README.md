@@ -1,4 +1,4 @@
-# Tic Tac Toe "AI" Shennanigans
+# Tic Tac Toe "AI" Shenanigans
 
 ### What?
 This is a ittle Java program to play tic tac toe versus an "AI" that is supposed to be unbeatable. Inspired by [Sebastian Lague's Chess AI video](https://www.youtube.com/watch?v=U4ogK0MIzqk).
