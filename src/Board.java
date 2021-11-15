@@ -30,7 +30,8 @@ public class Board {
       this.winner = 1;
       this.finished = true;
       return true;
-    } else if (this.filled == 0) {
+    } 
+    else if (this.filled == 0) {
       this.finished = true;
       this.winner = 0;
       return true;
@@ -59,7 +60,8 @@ public class Board {
       this.winner = -1;
       this.finished = true;
       return true;
-    } else if (this.filled == 0) {
+    } 
+    else if (this.filled == 0) {
       this.finished = true;
       this.winner = 0;
       return true;
@@ -70,10 +72,9 @@ public class Board {
   // Recursive search for best next move with this player
   public int makeMoveRec(int row, int col, int player, int depth) {
 
-    if (Evaluate(row, col, player) == true)
-      return player * depth;
-    if (depth == 1)
-      return 0;
+    if (Evaluate(row, col, player) == true) return player * depth;
+    if (depth == 1) return 0;
+
     this.board[row][col] = player;
     TreeSet<Integer> order = new TreeSet<>();
     for (int i = 0; i < DIMENSION; i++) {
@@ -85,10 +86,8 @@ public class Board {
     this.board[row][col] = 0;
     // we want to give the weight of the strongest possible counter-attack by enemy
     // against current player, should current player not win with current move
-    if (player > 0)
-      return order.first();
-    else
-      return order.last();
+    if (player > 0) return order.first();
+    else return order.last();
   }
 
   public void Reset() {
@@ -107,14 +106,10 @@ public class Board {
     this.board[row][col] = player;
     int c = 0, r = 0, d = 0, rd = 0;
     for (int i = 0; i < DIMENSION; i++) {
-      if (this.board[row][i] == player)
-        c++;
-      if (this.board[i][col] == player)
-        r++;
-      if (this.board[i][i] == player)
-        d++;
-      if (this.board[i][DIMENSION - i - 1] == player)
-        rd++;
+      if (this.board[row][i] == player) c++;
+      if (this.board[i][col] == player) r++;
+      if (this.board[i][i]   == player) d++;
+      if (this.board[i][DIMENSION - i - 1] == player) rd++;
     }
     this.board[row][col] = 0;
     return c == DIMENSION || r == DIMENSION || d == DIMENSION || rd == DIMENSION;
