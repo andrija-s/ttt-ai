@@ -54,8 +54,10 @@ public class Board {
      * entry.getKey()); }
      */
     this.filled--;
-    boolean tempC = this.Evaluate(order.get(order.firstKey())[0], order.get(order.firstKey())[1], -1);
-    this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
+    int x = order.get(order.firstKey())[0];
+    int y = order.get(order.firstKey())[1];
+    boolean tempC = this.Evaluate(x, y, -1);
+    this.board[x][y] = -1;
     if (tempC) {
       this.winner = -1;
       this.finished = true;
