@@ -36,7 +36,11 @@ public class Board {
       this.winner = 0;
       return true;
     }
-
+    /* 
+     first comp move creates large number of recursive calls (55k+),
+     could make it fixed first move for comp,
+     more pruning tactics should be investigated for this tactic to become generalizable
+    */
     TreeMap<Integer, int[]> order = new TreeMap<>();
     for (int i = 0; i < DIMENSION; i++) {
       for (int j = 0; j < DIMENSION; j++) {
@@ -48,11 +52,11 @@ public class Board {
     }
     // testing the result, sadly you will never see a negative key because algo
     // can't beat itself :'(
-    /*
-     * for (Map.Entry<Integer, int[]> entry : order.entrySet()) {
-     * System.out.println(Arrays.toString(entry.getValue()) + " key: " +
-     * entry.getKey()); }
-     */
+    /*   
+     for (Map.Entry<Integer, int[]> entry : order.entrySet()) {
+     System.out.println(Arrays.toString(entry.getValue()) + " key: " +
+     entry.getKey()); }
+    */
     this.filled--;
     int x = order.get(order.firstKey())[0];
     int y = order.get(order.firstKey())[1];
