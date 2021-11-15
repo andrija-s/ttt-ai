@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Board {
 
   public int[][] board = new int[3][3];
-  public int empty = 9;
+  public int filled = 9;
   public boolean finished = false;
 
   public Board() {
@@ -23,14 +23,14 @@ public class Board {
         || col >= board[row].length)
       return false;
     else {
-      this.empty--;
+      this.filled--;
       boolean temp = this.Evaluate(row, col, 1);
       this.board[row][col] = 1;
       if (temp) {
         System.out.println("X WINS");
         this.finished = true;
         return true;
-      } else if (this.empty == 0) {
+      } else if (this.filled == 0) {
         this.finished = true;
         System.out.println("DRAW");
         return true;
@@ -45,7 +45,7 @@ public class Board {
           }
         }
       }
-      this.empty--;
+      this.filled--;
       // testing the result, sadly you will never see a negative key because algo
       // can't beat itself :'(
       /*
@@ -59,7 +59,7 @@ public class Board {
         System.out.println("O WINS");
         this.finished = true;
         return true;
-      } else if (this.empty == 0) {
+      } else if (this.filled == 0) {
         this.finished = true;
         System.out.println("DRAW");
         return true;
@@ -72,11 +72,11 @@ public class Board {
   public int makeMoveRec(int row, int col, int player) {
 
     if (Evaluate(row, col, player) == true) {
-      return player * this.empty;
+      return player * this.filled;
     }
-    if (this.empty == 1)
+    if (this.filled == 1)
       return 0;
-    this.empty--;
+    this.filled--;
     this.board[row][col] = player;
     ArrayList<Integer> order = new ArrayList<>();
     for (int i = 0; i < board.length; i++) {
@@ -93,13 +93,13 @@ public class Board {
     else
       return order.get(order.size() - 1);
   }
-
+  // Helper to reset move
   public boolean unMove(int row, int col) {
 
     if (this.board[row][col] == 0 || row < 0 || row >= board.length || col < 0 || col >= board[row].length)
       return false;
     else {
-      this.empty++;
+      this.filled++;
       this.board[row][col] = 0;
       this.finished = false;
       return true;
@@ -108,9 +108,9 @@ public class Board {
 
   public void Reset() {
 
-    if (board != null) {
-      this.board = new int[board.length][board[0].length];
-    }
+    this.board = new int[3][3];
+    this.filled = 9;
+    this.finished = false;
   }
 
   /**
