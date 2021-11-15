@@ -10,12 +10,11 @@ public class Main {
     Board test = new Board();
 
     Scanner myObj = new Scanner(System.in);
-
     while (!test.finished) {
       System.out.println(test.toString());
-      System.out.println("Enter row");
+      System.out.println("Enter row [1, 3]:");
       int posR = myObj.nextInt();
-      System.out.println("Enter col");
+      System.out.println("Enter col [1, 3]:");
       int posC = myObj.nextInt(); 
       
       test.makeMove(posR, posC);

@@ -10,8 +10,10 @@ public class Board {
   public Board() {
   }
 
+  // This is the combined move of player and computer, yes I know it's a bad idea to couple it this way.
   public boolean makeMove(int row, int col) {
-
+    row--;
+    col--;
     if (this.finished || this.board[row][col] != 0 || row < 0 || row >= board.length || col < 0
         || col >= board[row].length)
       return false;
