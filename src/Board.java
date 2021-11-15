@@ -8,6 +8,7 @@ public class Board {
   public int[][] board = new int[DIMENSION][DIMENSION];
   public int filled = DIMENSION * DIMENSION;
   public boolean finished = false;
+  public int winner = 0;
 
   public Board() {
   }
@@ -18,20 +19,20 @@ public class Board {
 
     row--;
     col--;
-    if (this.finished || this.board[row][col] != 0 || row < 0 || row >= board.length || col < 0
-        || col >= board[row].length)
+    if (this.finished || row < 0 || row >= DIMENSION || col < 0
+        || col >= DIMENSION || this.board[row][col] != 0)
       return false;
     else {
       this.filled--;
       boolean temp = this.Evaluate(row, col, 1);
       this.board[row][col] = 1;
       if (temp) {
-        System.out.println("X WINS");
+        this.winner = 1;
         this.finished = true;
         return true;
       } else if (this.filled == 0) {
         this.finished = true;
-        System.out.println("DRAW");
+        this.winner = 0;
         return true;
       }
 
@@ -55,12 +56,12 @@ public class Board {
       boolean tempC = this.Evaluate(order.get(order.firstKey())[0], order.get(order.firstKey())[1], -1);
       this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
       if (tempC) {
-        System.out.println("O WINS");
+        this.winner = -1;
         this.finished = true;
         return true;
       } else if (this.filled == 0) {
         this.finished = true;
-        System.out.println("DRAW");
+        this.winner = 0;
         return true;
       }
       return true;
@@ -71,7 +72,7 @@ public class Board {
   public int makeMoveRec(int row, int col, int player, int depth) {
 
     if (Evaluate(row, col, player) == true) {
-      return player * this.filled;
+      return player * depth;
     }
     if (depth == 1)
       return 0;
@@ -126,6 +127,13 @@ public class Board {
         }
       }
       result.append("\n");
+    }
+    if (this.finished) {
+      switch(winner) {
+        case -1 -> result.append("\nO WINS!\n");
+        case  1 -> result.append("\nX WINS!\n");
+        default -> result.append("\nDRAW!\n");
+      }
     }
     return result.toString();
   }

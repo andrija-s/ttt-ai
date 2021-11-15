@@ -1,6 +1,6 @@
-package src;
-
+import src.Board;
 import java.util.Scanner;
+
 /**
  * Main
  */
@@ -8,7 +8,6 @@ public class Main {
 
   public static void main(String[] args) {
     Board test = new Board();
-
     Scanner myObj = new Scanner(System.in);
     while (!test.finished) {
       System.out.println(test.toString());

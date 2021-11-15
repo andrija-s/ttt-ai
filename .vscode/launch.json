@@ -8,7 +8,7 @@
       "type": "java",
       "name": "Launch Main",
       "request": "launch",
-      "mainClass": "src.Main",
+      "mainClass": "Main",
       "console": "externalTerminal",
       "projectName": "ttt-ai_46f88da3"
     },
@@ -17,15 +17,7 @@
       "name": "Launch Current File",
       "request": "launch",
       "console": "externalTerminal",
-      "mainClass": "${file}"
-    },
-    {
-      "type": "java",
-      "name": "Launch main",
-      "request": "launch",
-      "mainClass": "main",
-      "console": "externalTerminal",
-      "projectName": "ttt-ai_46f88da3"
+      "mainClass": "src.${file}"
     }
   ]
 }
