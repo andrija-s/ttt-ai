@@ -1,13 +1,12 @@
 package src;
 
 import java.util.TreeMap;
-import java.util.Collections;
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Board {
-
-  public int[][] board = new int[3][3];
-  public int filled = 9;
+  public static final int DIMENSION = 3;
+  public int[][] board = new int[DIMENSION][DIMENSION];
+  public int filled = DIMENSION * DIMENSION;
   public boolean finished = false;
 
   public Board() {
@@ -37,15 +36,14 @@ public class Board {
       }
 
       TreeMap<Integer, int[]> order = new TreeMap<>();
-      for (int i = 0; i < board.length; i++) {
-        for (int j = 0; j < board[i].length; j++) {
+      for (int i = 0; i < DIMENSION; i++) {
+        for (int j = 0; j < DIMENSION; j++) {
           if (this.board[i][j] == 0) {
             int[] arr = { i, j };
-            order.put(makeMoveRec(i, j, -1), arr);
+            order.put(makeMoveRec(i, j, -1, this.filled), arr);
           }
         }
       }
-      this.filled--;
       // testing the result, sadly you will never see a negative key because algo
       // can't beat itself :'(
       /*
@@ -53,6 +51,7 @@ public class Board {
        * System.out.println(Arrays.toString(entry.getValue()) + " key: " +
        * entry.getKey()); }
        */
+      this.filled--;
       boolean tempC = this.Evaluate(order.get(order.firstKey())[0], order.get(order.firstKey())[1], -1);
       this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
       if (tempC) {
@@ -69,47 +68,32 @@ public class Board {
   }
 
   // Recursive search for best next move with this player
-  public int makeMoveRec(int row, int col, int player) {
+  public int makeMoveRec(int row, int col, int player, int depth) {
 
     if (Evaluate(row, col, player) == true) {
       return player * this.filled;
     }
-    if (this.filled == 1)
+    if (depth == 1)
       return 0;
-    this.filled--;
     this.board[row][col] = player;
-    ArrayList<Integer> order = new ArrayList<>();
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
-        if (this.board[i][j] == 0) {
-          order.add(makeMoveRec(i, j, -player));
-        }
+    TreeSet<Integer> order = new TreeSet<>();
+    for (int i = 0; i < DIMENSION; i++) {
+      for (int j = 0; j < DIMENSION; j++) {
+        if (this.board[i][j] == 0)
+          order.add(makeMoveRec(i, j, -player, depth - 1));
       }
     }
-    unMove(row, col);
-    Collections.sort(order);
-    if (player > 0)
-      return order.get(0);
+    this.board[row][col] = 0;
+    if (player > 0) 
+      return order.first();
     else
-      return order.get(order.size() - 1);
-  }
-  // Helper to reset move
-  public boolean unMove(int row, int col) {
-
-    if (this.board[row][col] == 0 || row < 0 || row >= board.length || col < 0 || col >= board[row].length)
-      return false;
-    else {
-      this.filled++;
-      this.board[row][col] = 0;
-      this.finished = false;
-      return true;
-    }
+      return order.last();
   }
 
   public void Reset() {
 
-    this.board = new int[3][3];
-    this.filled = 9;
+    this.board = new int[DIMENSION][DIMENSION];
+    this.filled = DIMENSION * DIMENSION;
     this.finished = false;
   }
 
@@ -119,15 +103,14 @@ public class Board {
   public boolean Evaluate(int row, int col, int player) {
     this.board[row][col] = player;
     int c = 0, r = 0, d = 0, rd = 0;
-    int len = this.board.length;
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < DIMENSION; i++) {
       if (this.board[row][i] == player) c++;
       if (this.board[i][col] == player) r++;
-      if (this.board[i][i]   == player)   d++;
-      if (this.board[i][len - i - 1] == player) rd++;
+      if (this.board[i][i]   == player) d++;
+      if (this.board[i][DIMENSION - i - 1] == player) rd++;
     }
     this.board[row][col] = 0;
-    return c == len || r == len || d == len || rd == len;
+    return c == DIMENSION || r == DIMENSION || d == DIMENSION || rd == DIMENSION;
   }
 
   public String toString() {
