@@ -7,7 +7,7 @@ import java.util.*;
 public class Main {
 
   public static void main(String[] args) {
-    Board test = new Board(3, 3);
+    Board test = new Board();
 
     Scanner myObj = new Scanner(System.in);
 

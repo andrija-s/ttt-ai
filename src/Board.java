@@ -3,14 +3,11 @@ package src;
 import java.util.*;
 
 public class Board {
-  public static final int WINSTREAK = 3;
-  public int[][] board;
-  public int empty;
+  public int[][] board = new int[3][3];
+  public int empty = 9;
   public boolean finished = false;
 
-  public Board(int row, int col) {
-    this.empty = row * col;
-    this.board = new int[row][col];
+  public Board() {
   }
 
   public boolean makeMove(int row, int col) {
@@ -20,8 +17,8 @@ public class Board {
       return false;
     else {
       this.empty--;
-      this.board[row][col] = 1;
       boolean temp = this.Evaluate(row, col, 1);
+      this.board[row][col] = 1;
       if (temp) {
         System.out.println("X WINS");
         this.finished = true;
@@ -37,8 +34,7 @@ public class Board {
         for (int j = 0; j < board[i].length; j++) {
           if (this.board[i][j] == 0) {
             int[] arr = { i, j };
-            int res = makeMoveRec(i, j, -1);
-            order.put(res, arr);
+            order.put(makeMoveRec(i, j, -1), arr);
           }
         }
       }
@@ -46,8 +42,8 @@ public class Board {
       for (Map.Entry<Integer, int[]> entry : order.entrySet()) {
         System.out.println(Arrays.toString(entry.getValue()) + " key: " + entry.getKey());
       }
-      this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
       boolean tempC = this.Evaluate(order.get(order.firstKey())[0], order.get(order.firstKey())[1], -1);
+      this.board[order.get(order.firstKey())[0]][order.get(order.firstKey())[1]] = -1;
       if (tempC) {
         System.out.println("O WINS");
         this.finished = true;
@@ -62,12 +58,11 @@ public class Board {
   }
 
   public int makeMoveRec(int row, int col, int set) {
-    this.empty--;
-    this.board[row][col] = set;
     if (Evaluate(row, col, set) == true) {
-      unMove(row, col);
       return set * this.empty;
     }
+    this.empty--;
+    this.board[row][col] = set;
     ArrayList<Integer> order = new ArrayList<>();
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
@@ -103,6 +98,7 @@ public class Board {
   }
 
   public boolean Evaluate(int row, int col, int set) {
+    this.board[row][col] = set;
     int c = 0, r = 0, d = 0, rd = 0;
     int len = this.board.length;
     for (int i = 0; i < len; i++) {
@@ -115,6 +111,7 @@ public class Board {
       if (this.board[i][len - i - 1] == set)
         rd++;
     }
+    this.board[row][col] = 0;
     return c == len || r == len || d == len || rd == len;
   }
 
