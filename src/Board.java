@@ -11,9 +11,9 @@ public class Board {
 
   public Board() {
   }
-
-  // This is the combined move of player and computer, yes I know it's a bad idea
-  // to couple it this way.
+  
+  // This is the combined move of player and computer,
+  // yes I know it's not a great idea to couple it this way.
   public boolean makeMove(int row, int col) {
 
     row--;
@@ -98,7 +98,9 @@ public class Board {
   }
 
   /**
-   * Evaluates if move to row, col with player of such set is a win. Got the idea to it this way from StackOverflow
+   * Evaluates if move to row, col with this player is a win.
+   * Got the idea to do it this way from StackOverflow user, Osama Al-Maadeed:
+   * https://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
    */
   public boolean Evaluate(int row, int col, int player) {
     this.board[row][col] = player;
